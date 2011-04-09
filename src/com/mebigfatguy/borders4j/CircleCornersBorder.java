@@ -85,17 +85,23 @@ public class CircleCornersBorder extends AbstractBorder {
 				r.height -= top + bottom - 1;
 				g.drawRect(r.x, r.y, r.width, r.height);
 			} else {
-				g.drawLine(r.x + left, r.y + top - 1, r.x + left * 2, r.y + top - 1);
-				g.drawLine(r.x + left - 1, r.y + top - 1, r.x + left - 1, r.y + top * 2);
+				int lX = r.x + left - 1;
+				int rX = r.x + r.width - right;
+				int tY = r.y + top - 1;
+				int bY = r.y + r.height - bottom;
 
-				g.drawLine(r.x + left - 1, r.y + r.height - bottom, r.x + left * 2, r.height - bottom);
-				g.drawLine(r.x + left - 1, r.y + r.height - bottom - 1, r.x + left - 1, r.height - bottom * 2 - 1);
 
-				g.drawLine(r.x + r.width - right * 2, r.y + r.height - bottom, r.x + r.width - right, r.y + r.height - bottom);
-				g.drawLine(r.x + r.width - right, r.y + r.height - bottom, r.x + r.width - right, r.y + r.height - bottom * 2);
+				g.drawLine(lX, tY, r.x + left * 2, tY);
+				g.drawLine(lX, tY, lX, r.y + top * 2);
 
-				g.drawLine(r.x + r.width - right * 2, r.y + top - 1, r.x + r.width - right - 1, r.y + top - 1);
-				g.drawLine(r.x + r.width - right, r.y + top - 1, r.x + r.width - right, r.y + top * 2 - 1);
+				g.drawLine(lX, bY, r.x + left * 2, bY);
+				g.drawLine(lX, bY, lX, r.height - bottom * 2 - 1);
+
+				g.drawLine(r.x + r.width - right * 2, bY, rX, bY);
+				g.drawLine(rX, bY, rX, r.y + r.height - bottom * 2);
+
+				g.drawLine(r.x + r.width - right * 2, tY, rX, lX);
+				g.drawLine(rX, tY, rX, r.y + top * 2 - 1);
 
 			}
 

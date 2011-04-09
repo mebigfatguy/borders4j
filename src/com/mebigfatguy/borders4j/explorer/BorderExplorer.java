@@ -36,6 +36,7 @@ import javax.swing.border.Border;
 
 import com.mebigfatguy.borders4j.AlphaBorder;
 import com.mebigfatguy.borders4j.CheckerboardBorder;
+import com.mebigfatguy.borders4j.CircleCornersBorder;
 import com.mebigfatguy.borders4j.MultilineBorder;
 
 public class BorderExplorer extends JFrame {
@@ -48,6 +49,7 @@ public class BorderExplorer extends JFrame {
 		borders.put("Animated Alpha", new AlphaBorder(16, 16, 16, 16, 0.2f, Color.RED, AlphaComposite.SRC_OVER, 200));
 		borders.put("Alpha", new AlphaBorder(16, 16, 16, 16, 0.2f, Color.RED));
 		borders.put("Multiline", new MultilineBorder(7, Color.MAGENTA, 2, 5));
+		borders.put("CircleCorners", new CircleCornersBorder(8, 8, 8, 8, Color.LIGHT_GRAY, Color.BLUE));
 	}
 
 	private final JPanel panel;

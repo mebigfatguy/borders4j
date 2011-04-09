@@ -17,6 +17,7 @@
  */
 package com.mebigfatguy.borders4j.explorer;
 
+import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -44,6 +45,7 @@ public class BorderExplorer extends JFrame {
 	static {
 		borders.put("Animated Checkerboard", new CheckerboardBorder(8, 8, 8, 8, Color.BLUE, Color.YELLOW, 400));
 		borders.put("Checkerboard", new CheckerboardBorder(8, 8, 8, 8, Color.RED, Color.WHITE, 0));
+		borders.put("Animated Alpha", new AlphaBorder(16, 16, 16, 16, 0.2f, Color.RED, AlphaComposite.SRC_OVER, 200));
 		borders.put("Alpha", new AlphaBorder(16, 16, 16, 16, 0.2f, Color.RED));
 		borders.put("Multiline", new MultilineBorder(7, Color.MAGENTA, 2, 5));
 	}

@@ -26,13 +26,18 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Rectangle;
 
+import javax.swing.Timer;
 import javax.swing.border.AbstractBorder;
+
+import com.mebigfatguy.borders4j.timer.BorderTimer;
 
 public class AlphaBorder extends AbstractBorder {
 
 	private final int top, left, bottom, right;
 	private final Color color;
-	private final AlphaComposite composite;
+	private AlphaComposite composite;
+	private float alphaDelta = 0.1f;
+	private final int transitionDelay;
 
 	public AlphaBorder() {
 		this(8, 8, 8, 8);
@@ -51,12 +56,17 @@ public class AlphaBorder extends AbstractBorder {
 	}
 
 	public AlphaBorder(int top, int left, int bottom, int right, float transparency, Color color, int compositeType) {
+		this(top, left, bottom, right, transparency, color, compositeType, 0);
+	}
+
+	public AlphaBorder(int top, int left, int bottom, int right, float transparency, Color color, int compositeType, int transitionDelay) {
 		this.top = top;
 		this.left = left;
 		this.bottom = bottom;
 		this.right = right;
 		this.color = color;
 		composite = AlphaComposite.getInstance(compositeType, transparency);
+		this.transitionDelay = transitionDelay;
 	}
 
 	@Override
@@ -106,6 +116,22 @@ public class AlphaBorder extends AbstractBorder {
 
 			if (right > 0) {
 				g.fillRect(r.x + r.width - right, r.y + top, right, r.height - bottom - top);
+			}
+
+			if (transitionDelay > 0) {
+				float alpha = composite.getAlpha() + alphaDelta;
+				if (alpha < 0.0) {
+					alpha = 0.0f;
+					alphaDelta *= -1f;
+				} else if (alpha > 1.0) {
+					alpha = 1.0f;
+					alphaDelta *= -1f;
+				}
+				composite = composite.derive(alpha);
+
+				Timer t = new BorderTimer(c, top, left, bottom, right, transitionDelay);
+				t.setRepeats(false);
+				t.start();
 			}
 
 		} finally {

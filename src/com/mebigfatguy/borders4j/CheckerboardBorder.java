@@ -22,11 +22,11 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 import javax.swing.border.AbstractBorder;
+
+import com.mebigfatguy.borders4j.timer.BorderTimer;
 
 public class CheckerboardBorder extends AbstractBorder {
 
@@ -117,15 +117,7 @@ public class CheckerboardBorder extends AbstractBorder {
 			startIndex = 1 - startIndex;
 
 			if (blinkDelay > 0) {
-				Timer t = new Timer(blinkDelay, new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						c.repaint(r.x, r.y, r.width, top);
-						c.repaint(r.x, r.y, left, r.height);
-						c.repaint(r.x + r.width - right, r.y, r.width, right);
-						c.repaint(r.x, r.y + r.height - bottom, bottom, r.height);
-					}
-				});
+				Timer t = new BorderTimer(c, top, left, bottom, right, blinkDelay);
 				t.setRepeats(false);
 				t.start();
 			}

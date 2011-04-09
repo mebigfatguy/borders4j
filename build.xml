@@ -1,0 +1,105 @@
+<!--
+/*
+ * borders4j - An collection of swing borders
+ * Copyright 2011 MeBigFatGuy.com
+ * Copyright 2011 Dave Brosius
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and limitations
+ * under the License.
+ */
+-->
+
+<project name="borders4j" default="build">
+
+	<property file="build.properties"/>
+
+	<property name="src.dir" value="${basedir}/src"/>
+	<property name="classes.dir" value="${basedir}/classes"/>
+	<property name="javadoc.dir" value="${basedir}/javadoc"/>
+	<property name="htdocs.dir" value="${basedir}/htdocs"/>
+	<property name="javac.source" value="1.5"/>
+	<property name="javac.target" value="1.5"/>
+	<property name="javac.deprecation" value="on"/>
+	<property name="javac.debug" value="on"/>
+
+	<path id="borders4j.classpath">
+		<pathelement location="${lib.dir}/junit-4.8.2.jar"/>
+	</path>
+	
+	<target name="clean" description="removes all generated collateral">
+		<delete dir="${classes.dir}"/>
+		<delete dir="${javadoc.dir}"/>
+		<delete file="${basedir}/borders4j-${borders4j.version}.jar"/>
+		<delete file="${basedir}/borders4j-src-${borders4j.version}.zip"/>
+	</target>
+
+	<target name="-init" description="prepares repository for a build">
+		<mkdir dir="${classes.dir}"/>
+		<mkdir dir="${javadoc.dir}"/>
+	</target>
+
+	<target name="compile" depends="-init" description="compiles java files">
+		<javac srcdir="${src.dir}"
+				destdir="${classes.dir}"
+				source="${javac.source}"
+				target="${javac.target}"
+				deprecation="${javac.deprecation}"
+				debug="${javac.debug}"
+				includeantruntime="false">
+			<classpath refid="deadmethods.classpath"/>
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile" description="produces the borders4j jar file">
+		<jar destfile="${basedir}/borders4j-${borders4j.version}.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/*.class"/>
+			</fileset>
+			<manifest>
+				<attribute name="borders4j-version" value="${borders4j.version}"/>
+				<attribute name="Bundle-ManifestVersion" value="2"/>
+				<attribute name="Bundle-Name" value="borders4j collection"/>
+				<attribute name="Bundle-SymbolicName" value="borders4j; singleton:=true"/>
+				<attribute name="Bundle-Version" value="${borders4j.version}"/>				
+				<attribute name="Bundle-ClassPath" value="."/>
+				<attribute name="Bundle-Vendor" value="Borders4j Project"/>
+				<attribute name="Bundle-ActivationPolicy" value="lazy"/>
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="srczip" description="builds the source distribution zip file">
+		<zip destfile="${basedir}/borders4j-src-${borders4j.version}.zip" basedir="${basedir}">
+			<fileset dir="${src.dir}">
+				<include name="**/*.java"/>
+				<include name="**/*.license"/>
+			</fileset>
+		</zip>
+	</target>
+
+	<target name="javadoc" depends="-init" description="build the javadoc for the project">
+		<javadoc packagenames="com.mebigfatguy.*"
+				 sourcepath="${src.dir}"
+				 classpathref="borders4j.classpath"
+				 destdir="${javadoc.dir}"
+				 windowtitle="borders4j api">
+		    <doctitle><![CDATA[<h1>borders4j javadoc</h1>]]></doctitle>
+		    <bottom><![CDATA[<i>Copyright &#169; 2011 MeBigFatGuy.com. All Rights Reserved.</i>]]></bottom>
+		</javadoc>
+	</target>
+
+	<target name="build" depends="clean, -init, compile, jar" description="builds the borders4j jar">
+	</target>
+
+	<target name="release" depends="build, srczip, javadoc" description="prepares everything for a release"/>
+
+</project>

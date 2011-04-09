@@ -55,7 +55,7 @@
 				deprecation="${javac.deprecation}"
 				debug="${javac.debug}"
 				includeantruntime="false">
-			<classpath refid="deadmethods.classpath"/>
+			<classpath refid="borders4j.classpath"/>
 		</javac>
 	</target>
 

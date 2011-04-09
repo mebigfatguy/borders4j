@@ -42,7 +42,8 @@ public class BorderExplorer extends JFrame {
 	private static final Map<String, Border> borders = new LinkedHashMap<String, Border>();
 
 	static {
-		borders.put("Checkerboard", new CheckerboardBorder(8, 8, 8, 8, Color.BLUE, Color.YELLOW, 400));
+		borders.put("Animated Checkerboard", new CheckerboardBorder(8, 8, 8, 8, Color.BLUE, Color.YELLOW, 400));
+		borders.put("Checkerboard", new CheckerboardBorder(8, 8, 8, 8, Color.RED, Color.WHITE, 0));
 		borders.put("Alpha", new AlphaBorder(16, 16, 16, 16, 0.2f, Color.RED));
 		borders.put("Multiline", new MultilineBorder(7, Color.MAGENTA, 2, 5));
 	}

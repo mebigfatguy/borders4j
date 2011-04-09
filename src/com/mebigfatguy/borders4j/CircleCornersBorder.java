@@ -15,6 +15,7 @@ public class CircleCornersBorder extends AbstractBorder {
 	private final int top, left, bottom, right;
 	private final Color fillColor;
 	private final Color lineColor;
+	private final boolean drawEdges;
 
 	public CircleCornersBorder() {
 		this(8, 8, 8, 8);
@@ -25,12 +26,17 @@ public class CircleCornersBorder extends AbstractBorder {
 	}
 
 	public CircleCornersBorder(int top, int left, int bottom, int right, Color fillColor, Color lineColor) {
+		this(top, left, bottom, right, Color.WHITE, Color.BLACK, false);
+	}
+
+	public CircleCornersBorder(int top, int left, int bottom, int right, Color fillColor, Color lineColor, boolean drawEdges) {
 		this.top = top;
 		this.left = left;
 		this.bottom = bottom;
 		this.right = right;
 		this.fillColor = fillColor;
 		this.lineColor = lineColor;
+		this.drawEdges = drawEdges;
 	}
 
 	@Override
@@ -72,11 +78,26 @@ public class CircleCornersBorder extends AbstractBorder {
 			g.drawOval(r.x + r.width - 2 * right - 1, r.y + r.height - 2 * bottom - 1, right * 2, bottom * 2); //br
 			g.drawOval(r.x + r.width - 2 * right - 1, r.y, right * 2, top * 2); //tr
 
-			r.x += left - 1;
-			r.y += top - 1;
-			r.width -= left + right - 1;
-			r.height -= top + bottom - 1;
-			g.drawRect(r.x, r.y, r.width, r.height);
+			if (drawEdges) {
+				r.x += left - 1;
+				r.y += top - 1;
+				r.width -= left + right - 1;
+				r.height -= top + bottom - 1;
+				g.drawRect(r.x, r.y, r.width, r.height);
+			} else {
+				g.drawLine(r.x + left, r.y + top - 1, r.x + left * 2, r.y + top - 1);
+				g.drawLine(r.x + left - 1, r.y + top - 1, r.x + left - 1, r.y + top * 2);
+
+				g.drawLine(r.x + left - 1, r.y + r.height - bottom, r.x + left * 2, r.height - bottom);
+				g.drawLine(r.x + left - 1, r.y + r.height - bottom - 1, r.x + left - 1, r.height - bottom * 2 - 1);
+
+				g.drawLine(r.x + r.width - right * 2, r.y + r.height - bottom, r.x + r.width - right, r.y + r.height - bottom);
+				g.drawLine(r.x + r.width - right, r.y + r.height - bottom, r.x + r.width - right, r.y + r.height - bottom * 2);
+
+				g.drawLine(r.x + r.width - right * 2, r.y + top - 1, r.x + r.width - right - 1, r.y + top - 1);
+				g.drawLine(r.x + r.width - right, r.y + top - 1, r.x + r.width - right, r.y + top * 2 - 1);
+
+			}
 
 		} finally {
 			g.setColor(saveColor);

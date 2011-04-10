@@ -12,44 +12,27 @@ import javax.swing.border.AbstractBorder;
 
 public class CircleCornersBorder extends AbstractBorder {
 
-	private final int top, left, bottom, right;
-	private final Color fillColor;
-	private final Color lineColor;
-	private final boolean drawEdges;
+	private final Options options;
 
 	public CircleCornersBorder() {
-		this(8, 8, 8, 8);
+		this(new Options());
 	}
 
-	public CircleCornersBorder(int top, int left, int bottom, int right) {
-		this(top, left, bottom, right, Color.WHITE, Color.BLACK);
-	}
-
-	public CircleCornersBorder(int top, int left, int bottom, int right, Color fillColor, Color lineColor) {
-		this(top, left, bottom, right, Color.WHITE, Color.BLACK, false);
-	}
-
-	public CircleCornersBorder(int top, int left, int bottom, int right, Color fillColor, Color lineColor, boolean drawEdges) {
-		this.top = top;
-		this.left = left;
-		this.bottom = bottom;
-		this.right = right;
-		this.fillColor = fillColor;
-		this.lineColor = lineColor;
-		this.drawEdges = drawEdges;
+	public CircleCornersBorder(Options options) {
+		this.options = options;
 	}
 
 	@Override
 	public Insets getBorderInsets(Component c) {
-		return new Insets(top, left, bottom, right);
+		return new Insets(options.top, options.left, options.bottom, options.right);
 	}
 
 	@Override
 	public Insets getBorderInsets(Component c, Insets insets) {
-		insets.top = top;
-		insets.left = left;
-		insets.bottom = bottom;
-		insets.right = right;
+		insets.top = options.top;
+		insets.left = options.left;
+		insets.bottom = options.bottom;
+		insets.right = options.right;
 
 		return insets;
 	}
@@ -66,42 +49,42 @@ public class CircleCornersBorder extends AbstractBorder {
 			clip.intersect(new Area(saveClip));
 			g.setClip(clip);
 
-			g.setColor(fillColor);
-			g.fillOval(r.x, r.y, left*2, top*2); //tl
-			g.fillOval(r.x, r.y + r.height - 2 * bottom - 1, left * 2, bottom * 2); //bl
-			g.fillOval(r.x + r.width - 2 * right - 1, r.y + r.height - 2 * bottom - 1, right * 2, bottom * 2); //br
-			g.fillOval(r.x + r.width - 2 * right - 1, r.y, right * 2, top * 2); //tr
+			g.setColor(options.fillColor);
+			g.fillOval(r.x, r.y, options.left*2, options.top*2); //tl
+			g.fillOval(r.x, r.y + r.height - 2 * options.bottom - options.lineWidth, options.left * 2, options.bottom * 2); //bl
+			g.fillOval(r.x + r.width - 2 * options.right - options.lineWidth, r.y + r.height - 2 * options.bottom - options.lineWidth, options.right * 2, options.bottom * 2); //br
+			g.fillOval(r.x + r.width - 2 * options.right - options.lineWidth, r.y, options.right * 2, options.top * 2); //tr
 
-			g.setColor(lineColor);
-			g.drawOval(r.x, r.y, left*2, top*2); //tl
-			g.drawOval(r.x, r.y + r.height - 2 * bottom - 1, left * 2, bottom * 2); //bl
-			g.drawOval(r.x + r.width - 2 * right - 1, r.y + r.height - 2 * bottom - 1, right * 2, bottom * 2); //br
-			g.drawOval(r.x + r.width - 2 * right - 1, r.y, right * 2, top * 2); //tr
+			g.setColor(options.lineColor);
+			g.drawOval(r.x, r.y, options.left*2, options.top*2); //tl
+			g.drawOval(r.x, r.y + r.height - 2 * options.bottom - options.lineWidth, options.left * 2, options.bottom * 2); //bl
+			g.drawOval(r.x + r.width - 2 * options.right - options.lineWidth, r.y + r.height - 2 * options.bottom - options.lineWidth, options.right * 2, options.bottom * 2); //br
+			g.drawOval(r.x + r.width - 2 * options.right - options.lineWidth, r.y, options.right * 2, options.top * 2); //tr
 
-			if (drawEdges) {
-				r.x += left - 1;
-				r.y += top - 1;
-				r.width -= left + right - 1;
-				r.height -= top + bottom - 1;
+			if (options.drawEdges) {
+				r.x += options.left - options.lineWidth;
+				r.y += options.top - options.lineWidth;
+				r.width -= options.left + options.right - options.lineWidth;
+				r.height -= options.top + options.bottom - options.lineWidth;
 				g.drawRect(r.x, r.y, r.width, r.height);
 			} else {
-				int lX = r.x + left - 1;
-				int rX = r.x + r.width - right;
-				int tY = r.y + top - 1;
-				int bY = r.y + r.height - bottom;
+				int lX = r.x + options.left - options.lineWidth;
+				int rX = r.x + r.width - options.right;
+				int tY = r.y + options.top - options.lineWidth;
+				int bY = r.y + r.height - options.bottom;
 
 
-				g.drawLine(lX, tY, r.x + left * 2, tY);
-				g.drawLine(lX, tY, lX, r.y + top * 2);
+				g.drawLine(lX, tY, r.x + options.left * 2, tY);
+				g.drawLine(lX, tY, lX, r.y + options.top * 2);
 
-				g.drawLine(lX, bY, r.x + left * 2, bY);
-				g.drawLine(lX, bY, lX, r.height - bottom * 2 - 1);
+				g.drawLine(lX, bY, r.x + options.left * 2, bY);
+				g.drawLine(lX, bY, lX, r.height - options.bottom * 2 - options.lineWidth);
 
-				g.drawLine(r.x + r.width - right * 2, bY, rX, bY);
-				g.drawLine(rX, bY, rX, r.y + r.height - bottom * 2);
+				g.drawLine(r.x + r.width - options.right * 2, bY, rX, bY);
+				g.drawLine(rX, bY, rX, r.y + r.height - options.bottom * 2);
 
-				g.drawLine(r.x + r.width - right * 2, tY, rX, lX);
-				g.drawLine(rX, tY, rX, r.y + top * 2 - 1);
+				g.drawLine(r.x + r.width - options.right * 2, tY, rX, lX);
+				g.drawLine(rX, tY, rX, r.y + options.top * 2 - options.lineWidth);
 
 			}
 
@@ -113,10 +96,10 @@ public class CircleCornersBorder extends AbstractBorder {
 
 	private Area getClippingArea(Rectangle r) {
 
-		Rectangle topRect = new Rectangle(r.x, r.y, r.width, top);
-		Rectangle leftRect = new Rectangle(r.x, r.y, left, r.height);
-		Rectangle bottomRect = new Rectangle(r.x, r.y + r.height - bottom, r.width, bottom);
-		Rectangle rightRect = new Rectangle(r.x + r.width - right, r.y, right, r.height);
+		Rectangle topRect = new Rectangle(r.x, r.y, r.width, options.top);
+		Rectangle leftRect = new Rectangle(r.x, r.y, options.left, r.height);
+		Rectangle bottomRect = new Rectangle(r.x, r.y + r.height - options.bottom, r.width, options.bottom);
+		Rectangle rightRect = new Rectangle(r.x + r.width - options.right, r.y, options.right, r.height);
 
 		Area clip = new Area(topRect);
 		clip.add(new Area(leftRect));
@@ -124,5 +107,56 @@ public class CircleCornersBorder extends AbstractBorder {
 		clip.add(new Area(rightRect));
 
 		return clip;
+	}
+
+	public static class Options {
+		int top = 8;
+		int left = 8;
+		int bottom = 8;
+		int right = 8;
+		Color fillColor = Color.WHITE;
+		Color lineColor = Color.BLACK;
+		boolean drawEdges = false;
+		int lineWidth = 1;
+
+		public Options setTop(int top) {
+			this.top = top;
+			return this;
+		}
+
+		public Options setLeft(int left) {
+			this.left = left;
+			return this;
+		}
+
+		public Options setBottom(int bottom) {
+			this.bottom = bottom;
+			return this;
+		}
+
+		public Options setRight(int right) {
+			this.right = right;
+			return this;
+		}
+
+		public Options setFillColor(Color fillColor) {
+			this.fillColor = fillColor;
+			return this;
+		}
+
+		public Options setLineColor(Color lineColor) {
+			this.lineColor = lineColor;
+			return this;
+		}
+
+		public Options setDrawEdges(boolean drawEdges) {
+			this.drawEdges = drawEdges;
+			return this;
+		}
+
+		public Options setLineWidth(int lineWidth) {
+			this.lineWidth = lineWidth;
+			return this;
+		}
 	}
 }

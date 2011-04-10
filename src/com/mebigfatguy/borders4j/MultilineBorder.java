@@ -30,37 +30,19 @@ import javax.swing.border.AbstractBorder;
 
 public class MultilineBorder extends AbstractBorder {
 
-	private final int numLines;
-	private final Color color;
-	private final int lineSize;
-	private final int gapSize;
+	private final Options options;
 	private final int borderSize;
 	private final Stroke stroke;
 
 	public MultilineBorder() {
-		this(3);
+		this(new Options());
 	}
 
-	public MultilineBorder(int numLines) {
-		this(3, Color.BLACK);
-	}
+	public MultilineBorder(Options options) {
+		this.options = options;
+		borderSize = (options.numLines * (options.lineSize)) + (options.numLines - 1) * options.gapSize;
 
-	public MultilineBorder(int numLines, Color color) {
-		this(numLines, color, 1);
-	}
-
-	public MultilineBorder(int numLines, Color color, int lineSize) {
-		this(numLines, color, 1, 1);
-	}
-
-	public MultilineBorder(int numLines, Color color, int lineSize, int gapSize) {
-		this.numLines = numLines;
-		this.color = color;
-		this.lineSize = lineSize;
-		this.gapSize = gapSize;
-		borderSize = (numLines * (lineSize)) + (numLines - 1) * gapSize;
-
-		stroke = new BasicStroke(lineSize);
+		stroke = new BasicStroke(options.lineSize);
 	}
 
 
@@ -87,15 +69,15 @@ public class MultilineBorder extends AbstractBorder {
 		Stroke saveStroke = g2d.getStroke();
 
 		try {
-			g.setColor(color);
+			g.setColor(options.color);
 			g2d.setStroke(stroke);
 
 			Rectangle r = c.getBounds();
-			r.width -= lineSize;
-			r.height -= lineSize;
+			r.width -= options.lineSize;
+			r.height -= options.lineSize;
 
-			int shrinkSize = (lineSize + gapSize);
-			for (int i = 0; i < numLines; i++) {
+			int shrinkSize = (options.lineSize + options.gapSize);
+			for (int i = 0; i < options.numLines; i++) {
 				g.drawRect(r.x, r.y, r.width, r.height);
 				r.x += shrinkSize;
 				r.y += shrinkSize;
@@ -106,6 +88,33 @@ public class MultilineBorder extends AbstractBorder {
 		} finally {
 			g.setColor(saveColor);
 			g2d.setStroke(saveStroke);
+		}
+	}
+
+	public static class Options {
+		public int numLines = 3;
+		public Color color = Color.BLACK;
+		public int lineSize = 1;
+		public int gapSize = 1;
+
+		public Options setNumLines(int numLines) {
+			this.numLines = numLines;
+			return this;
+		}
+
+		public Options setColor(Color color) {
+			this.color = color;
+			return this;
+		}
+
+		public Options setLineSize(int lineSize) {
+			this.lineSize = lineSize;
+			return this;
+		}
+
+		public Options setGapSize(int gapSize) {
+			this.gapSize = gapSize;
+			return this;
 		}
 	}
 }

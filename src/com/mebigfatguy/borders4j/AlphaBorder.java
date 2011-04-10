@@ -33,40 +33,17 @@ import com.mebigfatguy.borders4j.timer.BorderTimer;
 
 public class AlphaBorder extends AbstractBorder {
 
-	private final int top, left, bottom, right;
-	private final Color color;
+	private final Options options;
 	private AlphaComposite composite;
 	private float alphaDelta = 0.1f;
-	private final int transitionDelay;
 
 	public AlphaBorder() {
-		this(8, 8, 8, 8);
+		this(new Options());
 	}
 
-	public AlphaBorder(int top, int left, int bottom, int right) {
-		this(top, left, bottom, right, 0.5f);
-	}
-
-	public AlphaBorder(int top, int left, int bottom, int right, float transparency) {
-		this(top, left, bottom, right, transparency, Color.BLACK);
-	}
-
-	public AlphaBorder(int top, int left, int bottom, int right, float transparency, Color color) {
-		this(top, left, bottom, right, transparency, color, AlphaComposite.SRC_OVER);
-	}
-
-	public AlphaBorder(int top, int left, int bottom, int right, float transparency, Color color, int compositeType) {
-		this(top, left, bottom, right, transparency, color, compositeType, 0);
-	}
-
-	public AlphaBorder(int top, int left, int bottom, int right, float transparency, Color color, int compositeType, int transitionDelay) {
-		this.top = top;
-		this.left = left;
-		this.bottom = bottom;
-		this.right = right;
-		this.color = color;
-		composite = AlphaComposite.getInstance(compositeType, transparency);
-		this.transitionDelay = transitionDelay;
+	public AlphaBorder(Options options) {
+		this.options = options;
+		composite = AlphaComposite.getInstance(options.compositeType, options.transparency);
 	}
 
 	@Override
@@ -76,15 +53,15 @@ public class AlphaBorder extends AbstractBorder {
 
 	@Override
 	public Insets getBorderInsets(Component c) {
-		return new Insets(top, left, bottom, right);
+		return new Insets(options.top, options.left, options.bottom, options.right);
 	}
 
 	@Override
 	public Insets getBorderInsets(Component c, Insets insets) {
-		insets.top = top;
-		insets.left = left;
-		insets.bottom = bottom;
-		insets.right = right;
+		insets.top = options.top;
+		insets.left = options.left;
+		insets.bottom = options.bottom;
+		insets.right = options.right;
 
 		return insets;
 	}
@@ -97,28 +74,28 @@ public class AlphaBorder extends AbstractBorder {
 		Composite saveComposite = g2d.getComposite();
 
 		try {
-			g.setColor(color);
+			g.setColor(options.color);
 			g2d.setComposite(composite);
 
 			final Rectangle r = c.getBounds();
 
-			if (top > 0) {
-				g.fillRect(r.x, r.y, r.width, top);
+			if (options.top > 0) {
+				g.fillRect(r.x, r.y, r.width, options.top);
 			}
 
-			if (left > 0) {
-				g.fillRect(r.x, r.y + top, left, r.height - bottom - top);
+			if (options.left > 0) {
+				g.fillRect(r.x, r.y + options.top, options.left, r.height - options.bottom - options.top);
 			}
 
-			if (bottom > 0) {
-				g.fillRect(r.x, r.y + r.height - bottom, r.width, bottom);
+			if (options.bottom > 0) {
+				g.fillRect(r.x, r.y + r.height - options.bottom, r.width, options.bottom);
 			}
 
-			if (right > 0) {
-				g.fillRect(r.x + r.width - right, r.y + top, right, r.height - bottom - top);
+			if (options.right > 0) {
+				g.fillRect(r.x + r.width - options.right, r.y + options.top, options.right, r.height - options.bottom - options.top);
 			}
 
-			if (transitionDelay > 0) {
+			if (options.transitionDelay > 0) {
 				float alpha = composite.getAlpha() + alphaDelta;
 				if (alpha < 0.0) {
 					alpha = 0.0f;
@@ -129,7 +106,7 @@ public class AlphaBorder extends AbstractBorder {
 				}
 				composite = composite.derive(alpha);
 
-				Timer t = new BorderTimer(c, top, left, bottom, right, transitionDelay);
+				Timer t = new BorderTimer(c, options.top, options.left, options.bottom, options.right, options.transitionDelay);
 				t.setRepeats(false);
 				t.start();
 			}
@@ -137,6 +114,57 @@ public class AlphaBorder extends AbstractBorder {
 		} finally {
 			g.setColor(saveColor);
 			g2d.setComposite(saveComposite);
+		}
+	}
+
+	public static class Options {
+		int top = 6;
+		int left = 6;
+		int bottom = 6;
+		int right = 6;
+		Color color = Color.RED;
+		float transparency = 0.5f;
+		int compositeType = AlphaComposite.SRC_OVER;
+		int transitionDelay = 0;
+
+		public Options setTop(int top) {
+			this.top = top;
+			return this;
+		}
+
+		public Options setLeft(int left) {
+			this.left = left;
+			return this;
+		}
+
+		public Options setBottom(int bottom) {
+			this.bottom = bottom;
+			return this;
+		}
+
+		public Options setRight(int right) {
+			this.right = right;
+			return this;
+		}
+
+		public Options setColor(Color color) {
+			this.color = color;
+			return this;
+		}
+
+		public Options setTransparency(float transparency) {
+			this.transparency = transparency;
+			return this;
+		}
+
+		public Options setCompositeType(int compositeType) {
+			this.compositeType = compositeType;
+			return this;
+		}
+
+		public Options setTransitionDelay(int transitionDelay) {
+			this.transitionDelay = transitionDelay;
+			return this;
 		}
 	}
 }

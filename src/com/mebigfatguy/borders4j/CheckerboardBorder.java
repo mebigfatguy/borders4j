@@ -30,44 +30,29 @@ import com.mebigfatguy.borders4j.timer.BorderTimer;
 
 public class CheckerboardBorder extends AbstractBorder {
 
-	private int type;
-	private final int top, left, bottom, right;
-	private final Color[] colors;
-	private final int blinkDelay;
+
+	private final Options options;
 	private int startIndex = 0;
 
 	public CheckerboardBorder() {
-		this(8, 8, 8, 8);
+		this(new Options());
 	}
 
-	public CheckerboardBorder(int top, int left, int bottom, int right) {
-		this(top, left, bottom, right, Color.BLACK, Color.WHITE);
-	}
-
-	public CheckerboardBorder(int top, int left, int bottom, int right, Color color1, Color color2) {
-		this(top, left, bottom, right, color1, color2, 0);
-	}
-
-	public CheckerboardBorder(int top, int left, int bottom, int right, Color color1, Color color2, int blinkDelay) {
-		this.top = top;
-		this.left = left;
-		this.bottom = bottom;
-		this.right = right;
-		colors = new Color[] { color1, color2 };
-		this.blinkDelay = blinkDelay;
+	public CheckerboardBorder(Options options) {
+		this.options = options;
 	}
 
 	@Override
 	public Insets getBorderInsets(Component c) {
-		return new Insets(top, left, bottom, right);
+		return new Insets(options.top, options.left, options.bottom, options.right);
 	}
 
 	@Override
 	public Insets getBorderInsets(Component c, Insets insets) {
-		insets.top = top;
-		insets.left = left;
-		insets.bottom = bottom;
-		insets.right = right;
+		insets.top = options.top;
+		insets.left = options.left;
+		insets.bottom = options.bottom;
+		insets.right = options.right;
 
 		return insets;
 	}
@@ -79,50 +64,89 @@ public class CheckerboardBorder extends AbstractBorder {
 		try {
 			final Rectangle r = c.getBounds();
 
-			if (top > 0) {
+			if (options.top > 0) {
 				int colorIndex = startIndex;
-				for (int i = r.x; i < (r.x + r.width); i += top) {
-					g.setColor(colors[colorIndex]);
-					colorIndex = 1 - colorIndex;
-					g.fillRect(i, r.y, top, top);
+				for (int i = r.x; i < (r.x + r.width); i += options.top) {
+					g.setColor(options.colors[colorIndex]);
+					colorIndex = (colorIndex + 1) % options.colors.length;
+					g.fillRect(i, r.y, options.top, options.top);
 				}
 			}
-			if (left > 0) {
+			if (options.left > 0) {
 				int colorIndex = startIndex;
-				for (int i = r.y; i < (r.y + r.height); i += left) {
-					g.setColor(colors[colorIndex]);
-					colorIndex = 1 - colorIndex;
-					g.fillRect(r.x, i, left, left);
+				for (int i = r.y; i < (r.y + r.height); i += options.left) {
+					g.setColor(options.colors[colorIndex]);
+					colorIndex = (colorIndex + 1) % options.colors.length;
+					g.fillRect(r.x, i, options.left, options.left);
 				}
 			}
-			if (bottom > 0) {
-				int yPos = r.y + r.height - bottom;
+			if (options.bottom > 0) {
+				int yPos = r.y + r.height - options.bottom;
 				int colorIndex = startIndex;
-				for (int i = r.x; i < (r.x + r.width); i += bottom) {
-					g.setColor(colors[colorIndex]);
-					colorIndex = 1 - colorIndex;
-					g.fillRect(i, yPos, bottom, bottom);
+				for (int i = r.x; i < (r.x + r.width); i += options.bottom) {
+					g.setColor(options.colors[colorIndex]);
+					colorIndex = (colorIndex + 1) % options.colors.length;
+					g.fillRect(i, yPos, options.bottom, options.bottom);
 				}
 			}
-			if (right > 0) {
-				int xPos = r.x + r.width - right;
+			if (options.right > 0) {
+				int xPos = r.x + r.width - options.right;
 				int colorIndex = startIndex;
-				for (int i = r.y; i < (r.y + r.height); i += right) {
-					g.setColor(colors[colorIndex]);
-					colorIndex = 1 - colorIndex;
-					g.fillRect(xPos, i, right, right);
+				for (int i = r.y; i < (r.y + r.height); i += options.right) {
+					g.setColor(options.colors[colorIndex]);
+					colorIndex = (colorIndex + 1) % options.colors.length;
+					g.fillRect(xPos, i, options.right, options.right);
 				}
 			}
 
-			startIndex = 1 - startIndex;
 
-			if (blinkDelay > 0) {
-				Timer t = new BorderTimer(c, top, left, bottom, right, blinkDelay);
+			if (options.blinkDelay > 0) {
+				startIndex = (startIndex + 1) % options.colors.length;
+				Timer t = new BorderTimer(c, options.top, options.left, options.bottom, options.right, options.blinkDelay);
 				t.setRepeats(false);
 				t.start();
 			}
 		} finally {
 			g.setColor(saveColor);
+		}
+	}
+
+	public static class Options {
+		public int top = 6;
+		public int left = 6;
+		public int bottom = 6;
+		public int right = 6;
+		public Color[] colors = new Color[] { Color.BLACK, Color.WHITE };
+		public int blinkDelay = 0;
+
+		public Options setTop(int top) {
+			this.top = top;
+			return this;
+		}
+
+		public Options setLeft(int left) {
+			this.left = left;
+			return this;
+		}
+
+		public Options setBottom(int bottom) {
+			this.bottom = bottom;
+			return this;
+		}
+
+		public Options setRight(int right) {
+			this.right = right;
+			return this;
+		}
+
+		public Options setColors(Color... colors) {
+			this.colors = colors;
+			return this;
+		}
+
+		public Options setBlinkDelay(int blinkDelay) {
+			this.blinkDelay = blinkDelay;
+			return this;
 		}
 	}
 }

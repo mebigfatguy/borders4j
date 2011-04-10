@@ -17,7 +17,6 @@
  */
 package com.mebigfatguy.borders4j.explorer;
 
-import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -44,12 +43,12 @@ public class BorderExplorer extends JFrame {
 	private static final Map<String, Border> borders = new LinkedHashMap<String, Border>();
 
 	static {
-		borders.put("Animated Checkerboard", new CheckerboardBorder(8, 8, 8, 8, Color.BLUE, Color.YELLOW, 400));
-		borders.put("Checkerboard", new CheckerboardBorder(8, 8, 8, 8, Color.RED, Color.WHITE, 0));
-		borders.put("Animated Alpha", new AlphaBorder(16, 16, 16, 16, 0.2f, Color.RED, AlphaComposite.SRC_OVER, 200));
-		borders.put("Alpha", new AlphaBorder(16, 16, 16, 16, 0.2f, Color.RED));
-		borders.put("Multiline", new MultilineBorder(7, Color.MAGENTA, 2, 5));
-		borders.put("CircleCorners", new CircleCornersBorder(8, 8, 8, 8, Color.LIGHT_GRAY, Color.BLUE));
+		borders.put("Animated Checkerboard", new CheckerboardBorder(new CheckerboardBorder.Options().setBlinkDelay(400).setColors(Color.BLUE, Color.YELLOW, Color.RED)));
+		borders.put("Checkerboard", new CheckerboardBorder(new CheckerboardBorder.Options().setColors(Color.RED, Color.WHITE)));
+		borders.put("Animated Alpha", new AlphaBorder(new AlphaBorder.Options().setTransitionDelay(200).setColor(Color.RED)));
+		borders.put("Alpha", new AlphaBorder(new AlphaBorder.Options().setColor(Color.BLUE).setTransparency(0.2f)));
+		borders.put("Multiline", new MultilineBorder(new MultilineBorder.Options().setColor(Color.BLUE).setNumLines(5).setGapSize(4)));
+		borders.put("CircleCorners", new CircleCornersBorder(new CircleCornersBorder.Options().setFillColor(Color.RED).setLineColor(Color.BLACK).setLineWidth(2)));
 	}
 
 	private final JPanel panel;

@@ -122,6 +122,8 @@ public class CastleBorder extends AbstractBorder {
 			g.fillPolygon(poly);
 			g.setColor(options.lineColor);
 			g.drawPolygon(poly);
+			g.setClip(saveClip);
+			g.drawRect(r.x, r.y, r.width, r.height);
 		} finally {
 			g.setColor(saveColor);
 			g2d.setStroke(saveStroke);

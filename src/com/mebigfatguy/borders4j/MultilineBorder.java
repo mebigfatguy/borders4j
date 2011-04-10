@@ -30,6 +30,8 @@ import javax.swing.border.AbstractBorder;
 
 public class MultilineBorder extends AbstractBorder {
 
+	private static final long serialVersionUID = -392939532187744632L;
+
 	private final Options options;
 	private final int borderSize;
 	private final Stroke stroke;

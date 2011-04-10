@@ -30,6 +30,7 @@ import com.mebigfatguy.borders4j.timer.BorderTimer;
 
 public class CheckerboardBorder extends AbstractBorder {
 
+	private static final long serialVersionUID = -2891429582120416794L;
 
 	private final Options options;
 	private int startIndex = 0;

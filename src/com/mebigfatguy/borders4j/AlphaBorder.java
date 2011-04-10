@@ -33,6 +33,8 @@ import com.mebigfatguy.borders4j.timer.BorderTimer;
 
 public class AlphaBorder extends AbstractBorder {
 
+	private static final long serialVersionUID = 1683232655601392384L;
+
 	private final Options options;
 	private AlphaComposite composite;
 	private float alphaDelta = 0.1f;

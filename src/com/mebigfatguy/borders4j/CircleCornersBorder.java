@@ -12,6 +12,8 @@ import javax.swing.border.AbstractBorder;
 
 public class CircleCornersBorder extends AbstractBorder {
 
+	private static final long serialVersionUID = 1765570151443641304L;
+
 	private final Options options;
 
 	public CircleCornersBorder() {

@@ -59,16 +59,16 @@ public class CurlyBraceBorder extends AbstractBorder {
 				float[][] pts = new float[][]
                 {
 					{r.x,r.y + options.top},
-					{r.x,r.y},
-					{r.x + r.width/2,r.y + options.top},
+					{r.x,r.y - options.top},
+					{r.x + r.width/2,r.y + options.top * 2},
 					{r.x + r.width/2,r.y},
                 };
 				BezierRenderer.draw(g, pts);
 				pts = new float[][]
                 {
 					{r.x + r.width,r.y + options.top},
-					{r.x + r.width,r.y},
-					{r.x + r.width/2,r.y + options.top},
+					{r.x + r.width,r.y - options.top},
+					{r.x + r.width/2,r.y + options.top * 2},
 					{r.x + r.width/2,r.y},
                 };
 				BezierRenderer.draw(g, pts);
@@ -77,16 +77,16 @@ public class CurlyBraceBorder extends AbstractBorder {
 				float[][] pts = new float[][]
                 {
 					{r.x + options.left,r.y},
-					{r.x,r.y},
-					{r.x + options.left,r.y + r.height/2},
+					{r.x - options.left,r.y},
+					{r.x + options.left * 2,r.y + r.height/2},
 					{r.x,r.y + r.height/2},
                 };
 				BezierRenderer.draw(g, pts);
 				pts = new float[][]
                 {
 					{r.x,r.y + r.height / 2},
-					{r.x + options.left,r.y + r.height / 2},
-					{r.x,r.y + r.height},
+					{r.x + options.left * 2,r.y + r.height / 2},
+					{r.x - options.left,r.y + r.height},
 					{r.x + options.left,r.y + r.height},
                 };
 				BezierRenderer.draw(g, pts);
@@ -95,16 +95,16 @@ public class CurlyBraceBorder extends AbstractBorder {
 				float[][] pts = new float[][]
                 {
 					{r.x,r.y + r.height - options.bottom},
-					{r.x,r.y + r.height},
-					{r.x + r.width/2,r.y + r.height - options.bottom},
+					{r.x,r.y + r.height + options.bottom},
+					{r.x + r.width/2,r.y + r.height - options.bottom * 2},
 					{r.x + r.width/2,r.y + r.height},
                 };
 				BezierRenderer.draw(g, pts);
 				pts = new float[][]
                 {
 					{r.x + r.width,r.y + r.height - options.bottom},
-					{r.x + r.width,r.y + r.height},
-					{r.x + r.width/2,r.y + r.height - options.bottom},
+					{r.x + r.width,r.y + r.height + options.bottom},
+					{r.x + r.width/2,r.y + r.height - options.bottom * 2},
 					{r.x + r.width/2,r.y + r.height},
                 };
 				BezierRenderer.draw(g, pts);
@@ -113,16 +113,16 @@ public class CurlyBraceBorder extends AbstractBorder {
 				float[][] pts = new float[][]
                 {
 					{r.x + r.width - options.right,r.y},
-					{r.x + r.width,r.y},
-					{r.x + r.width - options.right,r.y + r.height/2},
+					{r.x + r.width + options.right,r.y},
+					{r.x + r.width - options.right * 2,r.y + r.height/2},
 					{r.x + r.width,r.y + r.height/2},
                 };
 				BezierRenderer.draw(g, pts);
 				pts = new float[][]
                 {
 					{r.x + r.width,r.y + r.height / 2},
-					{r.x + r.width - options.right,r.y + r.height / 2},
-					{r.x + r.width,r.y + r.height},
+					{r.x + r.width - options.right * 2,r.y + r.height / 2},
+					{r.x + r.width + options.right,r.y + r.height},
 					{r.x + r.width - options.right,r.y + r.height},
                 };
 				BezierRenderer.draw(g, pts);

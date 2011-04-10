@@ -38,6 +38,7 @@ import com.mebigfatguy.borders4j.CheckerboardBorder;
 import com.mebigfatguy.borders4j.CircleCornersBorder;
 import com.mebigfatguy.borders4j.CurlyBraceBorder;
 import com.mebigfatguy.borders4j.MultilineBorder;
+import com.mebigfatguy.borders4j.ScrollBorder;
 
 public class BorderExplorer extends JFrame {
 
@@ -51,6 +52,7 @@ public class BorderExplorer extends JFrame {
 		borders.put("Multiline", new MultilineBorder(new MultilineBorder.Options().setColor(Color.BLUE).setNumLines(5).setGapSize(4)));
 		borders.put("CircleCorners", new CircleCornersBorder(new CircleCornersBorder.Options().setFillColor(Color.RED).setLineColor(Color.BLACK).setLineWidth(2)));
 		borders.put("CurlyBraces", new CurlyBraceBorder(new CurlyBraceBorder.Options().setColor(Color.BLUE).setLineWidth(2)));
+		borders.put("Scroll", new ScrollBorder(new ScrollBorder.Options().setColor(Color.MAGENTA).setLineWidth(2)));
 	}
 
 	private final JPanel panel;

@@ -132,14 +132,14 @@ public class ScrollBorder extends AbstractBorder {
 				{
 					{lx, r.y + r.height - options.lineWidth},
 					{lx - 10, r.y + r.height - options.lineWidth},
-					{lx - 10, r.y + r.height - options.bottom},
-					{lx, r.y + r.height - options.bottom}
+					{lx - 10, r.y + r.height - options.bottom + options.lineWidth},
+					{lx, r.y + r.height - options.bottom + options.lineWidth}
 				};
 				BezierRenderer.draw(g, pts);
 				pts = new float[][]
 				{
-					{lx, r.y + r.height - options.bottom},
-					{lx + 30, r.y + r.height - options.bottom},
+					{lx, r.y + r.height - options.bottom + options.lineWidth},
+					{lx + 30, r.y + r.height - options.bottom + options.lineWidth},
 					{rx - 30, r.y + r.height - options.lineWidth},
 					{rx, r.y + r.height - options.lineWidth}
 				};
@@ -148,8 +148,8 @@ public class ScrollBorder extends AbstractBorder {
   				{
 					{rx, r.y + r.height - options.lineWidth},
 					{rx + 10, r.y + r.height - options.lineWidth},
-					{rx + 10, r.y + r.height - options.bottom - options.lineWidth},
-					{rx, r.y + r.height - options.bottom - options.lineWidth},
+					{rx + 10, r.y + r.height - options.bottom + options.lineWidth},
+					{rx, r.y + r.height - options.bottom + options.lineWidth},
   				};
   				BezierRenderer.draw(g, pts);
 

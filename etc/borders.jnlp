@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<jnlp 
+  spec="1.0+" 
+  codebase="http://polycasso.sourceforge.net/jnlp" 
+  href="borders.jnlp">
+  <information> 
+    <title>Borders Explorer</title>
+    <vendor>MeBigFatGuy.com</vendor> 
+    <homepage href="https://github.com/mebigfatguy/borders4j"/> 
+    <description>A collection of swing component borders</description> 
+    <offline-allowed/> 
+  </information> 
+  <security> 
+      <all-permissions/> 
+  </security> 
+  <resources> 
+    <j2se version="1.6+" initial-heap-size="200m" max-heap-size="800m"/>
+    <jar href="borders4j-$VERSION.jar"/> 
+  </resources> 
+  <application-desc main-class="com.mebigfatguy.borders4j.explorer.BorderExplorer"/> 
+</jnlp> 

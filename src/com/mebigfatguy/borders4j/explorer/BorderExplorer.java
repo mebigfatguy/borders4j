@@ -40,6 +40,7 @@ import com.mebigfatguy.borders4j.CircleCornersBorder;
 import com.mebigfatguy.borders4j.CurlyBraceBorder;
 import com.mebigfatguy.borders4j.MultilineBorder;
 import com.mebigfatguy.borders4j.ScrollBorder;
+import com.mebigfatguy.borders4j.ShadowedPageBorder;
 
 public class BorderExplorer extends JFrame {
 
@@ -51,10 +52,11 @@ public class BorderExplorer extends JFrame {
 		borders.put("Animated Alpha", new AlphaBorder(new AlphaBorder.Options().setTransitionDelay(200).setColor(Color.RED)));
 		borders.put("Alpha", new AlphaBorder(new AlphaBorder.Options().setColor(Color.BLUE).setTransparency(0.2f)));
 		borders.put("Multiline", new MultilineBorder(new MultilineBorder.Options().setColor(Color.BLUE).setNumLines(5).setGapSize(4)));
-		borders.put("CircleCorners", new CircleCornersBorder(new CircleCornersBorder.Options().setFillColor(Color.RED).setLineColor(Color.BLACK).setLineWidth(2)));
+		borders.put("Circle Corners", new CircleCornersBorder(new CircleCornersBorder.Options().setFillColor(Color.RED).setLineColor(Color.BLACK).setLineWidth(2)));
 		borders.put("CurlyBraces", new CurlyBraceBorder(new CurlyBraceBorder.Options().setColor(Color.BLUE).setLineWidth(2)));
 		borders.put("Scroll", new ScrollBorder(new ScrollBorder.Options().setColor(Color.MAGENTA).setLineWidth(3)));
 		borders.put("Castle", new CastleBorder(new CastleBorder.Options().setFillColor(Color.GRAY).setLineColor(Color.BLUE).setLineWidth(2)));
+		borders.put("Shadowed Page", new ShadowedPageBorder(new ShadowedPageBorder.Options().setShadowXOffset(10).setShadowYOffset(10)));
 	}
 
 	private final JPanel panel;

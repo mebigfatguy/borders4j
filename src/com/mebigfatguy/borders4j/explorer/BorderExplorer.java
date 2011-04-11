@@ -44,6 +44,8 @@ import com.mebigfatguy.borders4j.ShadowedPageBorder;
 
 public class BorderExplorer extends JFrame {
 
+	private static final long serialVersionUID = 873777300853175232L;
+
 	private static final Map<String, Border> borders = new LinkedHashMap<String, Border>();
 
 	static {

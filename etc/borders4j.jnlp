@@ -2,7 +2,7 @@
 <jnlp 
   spec="1.0+" 
   codebase="https://github.com/downloads/mebigfatguy/borders4j" 
-  href="borders.jnlp">
+  href="borders4j.jnlp">
   <information> 
     <title>Borders Explorer</title>
     <vendor>MeBigFatGuy.com</vendor> 

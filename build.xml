@@ -26,6 +26,8 @@
 	<property name="classes.dir" value="${basedir}/classes"/>
 	<property name="javadoc.dir" value="${basedir}/javadoc"/>
 	<property name="htdocs.dir" value="${basedir}/htdocs"/>
+	<property name="jnlp.dir" value="${htdocs.dir}/jnlp"/>
+	<property name="etc.dir" value="${basedir}/etc"/>
 	<property name="javac.source" value="1.5"/>
 	<property name="javac.target" value="1.5"/>
 	<property name="javac.deprecation" value="on"/>
@@ -40,11 +42,18 @@
 		<delete dir="${javadoc.dir}"/>
 		<delete file="${basedir}/borders4j-${borders4j.version}.jar"/>
 		<delete file="${basedir}/borders4j-src-${borders4j.version}.zip"/>
+		<delete failonerror="false">
+			<fileset dir="${jnlp.dir}">
+				<include name="*.jar"/>
+				<include name="*.jnlp"/>
+			</fileset>
+		</delete>
 	</target>
 
 	<target name="-init" description="prepares repository for a build">
 		<mkdir dir="${classes.dir}"/>
 		<mkdir dir="${javadoc.dir}"/>
+		<mkdir dir="${jnlp.dir}"/>
 	</target>
 
 	<target name="compile" depends="-init" description="compiles java files">
@@ -59,7 +68,22 @@
 		</javac>
 	</target>
 
-	<target name="jar" depends="compile" description="produces the borders4j jar file">
+	<target name="resources" depends="-init" description="copies required files">
+		<copy todir="${jnlp.dir}">
+			<fileset dir="${etc.dir}">
+				<include name="*.jnlp"/>
+			</fileset>
+		</copy>
+		<replaceregexp byline="true">
+  			<regexp pattern="\$VERSION"/>
+  			<substitution expression="${borders4j.version}"/>
+  			<fileset dir="${jnlp.dir}">
+   				<include name="*.jnlp"/>
+  			</fileset>
+ 		</replaceregexp>
+	</target>
+		
+	<target name="jar" depends="compile, resources" description="produces the borders4j jar file">
 		<jar destfile="${basedir}/borders4j-${borders4j.version}.jar">
 			<fileset dir="${classes.dir}">
 				<include name="**/*.class"/>
@@ -75,6 +99,7 @@
 				<attribute name="Bundle-ActivationPolicy" value="lazy"/>
 			</manifest>
 		</jar>
+		<copy file="${basedir}/borders4j-${borders4j.version}.jar" tofile="${jnlp.dir}/borders4j-${borders4j.version}.jar"/>
 	</target>
 
 	<target name="srczip" description="builds the source distribution zip file">

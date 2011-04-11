@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <jnlp 
   spec="1.0+" 
-  codebase="http://polycasso.sourceforge.net/jnlp" 
+  codebase="https://github.com/downloads/mebigfatguy/borders4j" 
   href="borders.jnlp">
   <information> 
     <title>Borders Explorer</title>

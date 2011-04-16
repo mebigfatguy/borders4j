@@ -37,6 +37,8 @@ public class CastleBorder extends AbstractBorder {
 
 	private final Options options;
 	private final Stroke stroke;
+	private Rectangle cacheBounds;
+	private Polygon cachePoly;
 
 	public CastleBorder() {
 		this(new Options());
@@ -72,57 +74,13 @@ public class CastleBorder extends AbstractBorder {
 
 		try {
 			Rectangle r = c.getBounds();
+
 			g2d.setStroke(stroke);
 
-			int[] xpoints =
-			{
-				r.x,
-				r.x + 2 * options.left,
-				r.x + 2 * options.left,
-				r.x + r.width - 2 * options.right,
-				r.x + r.width - 2 * options.right,
-				r.x + r.width,
-				r.x + r.width,
-				r.x + r.width - options.right / 2,
-				r.x + r.width - options.right / 2,
-				r.x + r.width,
-				r.x + r.width,
-				r.x + r.width - 2 * options.right,
-				r.x + r.width - 2 * options.right,
-				r.x + 2 * options.left,
-				r.x + 2 * options.left,
-				r.x,
-				r.x,
-				r.x + options.left / 2,
-				r.x + options.left / 2,
-				r.x,
-				r.x
-			};
-
-			int[] ypoints =
-			{
-				r.y,
-				r.y,
-				r.y + options.top / 2,
-				r.y + options.top / 2,
-				r.y,
-				r.y,
-				r.y + 2 * options.top,
-				r.y + 2 * options.top,
-				r.y + r.height - 2 * options.bottom,
-				r.y + r.height - 2 * options.bottom,
-				r.y + r.height,
-				r.y + r.height,
-				r.y + r.height - options.bottom / 2,
-				r.y + r.height - options.bottom / 2,
-				r.y + r.height,
-				r.y + r.height,
-				r.y + r.height - 2 * options.bottom,
-				r.y + r.height - 2 * options.bottom,
-				r.y + 2 * options.top,
-				r.y + 2 * options.top,
-				r.y
-			};
+			if ((cacheBounds == null) || !r.equals(cacheBounds)) {
+				cachePoly = recalculatePolygon(r);
+				cacheBounds = (Rectangle)r.clone();
+			}
 
 			Area clip = new Area(r);
 			r.x += options.left;
@@ -133,12 +91,10 @@ public class CastleBorder extends AbstractBorder {
 
 			g.setClip(clip);
 
-			Polygon poly = new Polygon(xpoints, ypoints, 21);
-
 			g.setColor(options.fillColor);
-			g.fillPolygon(poly);
+			g.fillPolygon(cachePoly);
 			g.setColor(options.lineColor);
-			g.drawPolygon(poly);
+			g.drawPolygon(cachePoly);
 			g.setClip(saveClip);
 			g.drawRect(r.x, r.y, r.width, r.height);
 		} finally {
@@ -147,6 +103,62 @@ public class CastleBorder extends AbstractBorder {
 			g.setClip(saveClip);
 		}
 	}
+
+	private Polygon recalculatePolygon(Rectangle r) {
+
+		int[] xpoints =
+		{
+			r.x,
+			r.x + 2 * options.left,
+			r.x + 2 * options.left,
+			r.x + r.width - 2 * options.right,
+			r.x + r.width - 2 * options.right,
+			r.x + r.width,
+			r.x + r.width,
+			r.x + r.width - options.right / 2,
+			r.x + r.width - options.right / 2,
+			r.x + r.width,
+			r.x + r.width,
+			r.x + r.width - 2 * options.right,
+			r.x + r.width - 2 * options.right,
+			r.x + 2 * options.left,
+			r.x + 2 * options.left,
+			r.x,
+			r.x,
+			r.x + options.left / 2,
+			r.x + options.left / 2,
+			r.x,
+			r.x
+		};
+
+		int[] ypoints =
+		{
+			r.y,
+			r.y,
+			r.y + options.top / 2,
+			r.y + options.top / 2,
+			r.y,
+			r.y,
+			r.y + 2 * options.top,
+			r.y + 2 * options.top,
+			r.y + r.height - 2 * options.bottom,
+			r.y + r.height - 2 * options.bottom,
+			r.y + r.height,
+			r.y + r.height,
+			r.y + r.height - options.bottom / 2,
+			r.y + r.height - options.bottom / 2,
+			r.y + r.height,
+			r.y + r.height,
+			r.y + r.height - 2 * options.bottom,
+			r.y + r.height - 2 * options.bottom,
+			r.y + 2 * options.top,
+			r.y + 2 * options.top,
+			r.y
+		};
+
+		return new Polygon(xpoints, ypoints, 21);
+	}
+
 	public static class Options {
 		int top = 12;
 		int left = 12;

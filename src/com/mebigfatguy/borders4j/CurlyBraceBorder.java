@@ -26,6 +26,8 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.border.AbstractBorder;
 
@@ -37,6 +39,8 @@ public class CurlyBraceBorder extends AbstractBorder {
 
 	private final Options options;
 	private final Stroke stroke;
+	private Rectangle cacheBounds;
+	private final List<float[][]> bezierPts = new ArrayList<float[][]>();
 
 	public CurlyBraceBorder() {
 		this(new Options());
@@ -72,80 +76,17 @@ public class CurlyBraceBorder extends AbstractBorder {
 
 		try {
 			Rectangle r = c.getBounds();
+
+			if ((cacheBounds == null) || !r.equals(cacheBounds)) {
+				recalculateBezierPts(r);
+				cacheBounds = (Rectangle)r.clone();
+			}
+
 			g.setColor(options.color);
 			g2d.setStroke(stroke);
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-			if (options.top > 0) {
-				float[][] pts = new float[][]
-                {
-					{r.x,r.y + options.top},
-					{r.x,r.y - options.top},
-					{r.x + r.width/2,r.y + options.top * 2},
-					{r.x + r.width/2,r.y},
-                };
-				BezierRenderer.draw(g, pts);
-				pts = new float[][]
-                {
-					{r.x + r.width,r.y + options.top},
-					{r.x + r.width,r.y - options.top},
-					{r.x + r.width/2,r.y + options.top * 2},
-					{r.x + r.width/2,r.y},
-                };
-				BezierRenderer.draw(g, pts);
-			}
-			if (options.left > 0) {
-				float[][] pts = new float[][]
-                {
-					{r.x + options.left,r.y},
-					{r.x - options.left,r.y},
-					{r.x + options.left * 2,r.y + r.height/2},
-					{r.x,r.y + r.height/2},
-                };
-				BezierRenderer.draw(g, pts);
-				pts = new float[][]
-                {
-					{r.x,r.y + r.height / 2},
-					{r.x + options.left * 2,r.y + r.height / 2},
-					{r.x - options.left,r.y + r.height},
-					{r.x + options.left,r.y + r.height},
-                };
-				BezierRenderer.draw(g, pts);
-			}
-			if (options.bottom > 0) {
-				float[][] pts = new float[][]
-                {
-					{r.x,r.y + r.height - options.bottom},
-					{r.x,r.y + r.height + options.bottom},
-					{r.x + r.width/2,r.y + r.height - options.bottom * 2},
-					{r.x + r.width/2,r.y + r.height},
-                };
-				BezierRenderer.draw(g, pts);
-				pts = new float[][]
-                {
-					{r.x + r.width,r.y + r.height - options.bottom},
-					{r.x + r.width,r.y + r.height + options.bottom},
-					{r.x + r.width/2,r.y + r.height - options.bottom * 2},
-					{r.x + r.width/2,r.y + r.height},
-                };
-				BezierRenderer.draw(g, pts);
-			}
-			if (options.right > 0) {
-				float[][] pts = new float[][]
-                {
-					{r.x + r.width - options.right,r.y},
-					{r.x + r.width + options.right,r.y},
-					{r.x + r.width - options.right * 2,r.y + r.height/2},
-					{r.x + r.width,r.y + r.height/2},
-                };
-				BezierRenderer.draw(g, pts);
-				pts = new float[][]
-                {
-					{r.x + r.width,r.y + r.height / 2},
-					{r.x + r.width - options.right * 2,r.y + r.height / 2},
-					{r.x + r.width + options.right,r.y + r.height},
-					{r.x + r.width - options.right,r.y + r.height},
-                };
+			for (float[][] pts : bezierPts) {
 				BezierRenderer.draw(g, pts);
 			}
 
@@ -153,6 +94,87 @@ public class CurlyBraceBorder extends AbstractBorder {
 			g.setColor(saveColor);
 			g2d.setStroke(saveStroke);
 			g2d.setRenderingHints(saveHints);
+		}
+	}
+
+	private void recalculateBezierPts(Rectangle r) {
+		bezierPts.clear();
+
+		if (options.top > 0) {
+			float[][] pts = new float[][]
+            {
+				{r.x,r.y + options.top},
+				{r.x,r.y - options.top},
+				{r.x + r.width/2,r.y + options.top * 2},
+				{r.x + r.width/2,r.y},
+            };
+			bezierPts.add(pts);
+
+			pts = new float[][]
+            {
+				{r.x + r.width,r.y + options.top},
+				{r.x + r.width,r.y - options.top},
+				{r.x + r.width/2,r.y + options.top * 2},
+				{r.x + r.width/2,r.y},
+            };
+			bezierPts.add(pts);
+		}
+		if (options.left > 0) {
+			float[][] pts = new float[][]
+            {
+				{r.x + options.left,r.y},
+				{r.x - options.left,r.y},
+				{r.x + options.left * 2,r.y + r.height/2},
+				{r.x,r.y + r.height/2},
+            };
+			bezierPts.add(pts);
+
+			pts = new float[][]
+            {
+				{r.x,r.y + r.height / 2},
+				{r.x + options.left * 2,r.y + r.height / 2},
+				{r.x - options.left,r.y + r.height},
+				{r.x + options.left,r.y + r.height},
+            };
+			bezierPts.add(pts);
+		}
+		if (options.bottom > 0) {
+			float[][] pts = new float[][]
+            {
+				{r.x,r.y + r.height - options.bottom},
+				{r.x,r.y + r.height + options.bottom},
+				{r.x + r.width/2,r.y + r.height - options.bottom * 2},
+				{r.x + r.width/2,r.y + r.height},
+            };
+			bezierPts.add(pts);
+
+			pts = new float[][]
+            {
+				{r.x + r.width,r.y + r.height - options.bottom},
+				{r.x + r.width,r.y + r.height + options.bottom},
+				{r.x + r.width/2,r.y + r.height - options.bottom * 2},
+				{r.x + r.width/2,r.y + r.height},
+            };
+			bezierPts.add(pts);
+		}
+		if (options.right > 0) {
+			float[][] pts = new float[][]
+            {
+				{r.x + r.width - options.right,r.y},
+				{r.x + r.width + options.right,r.y},
+				{r.x + r.width - options.right * 2,r.y + r.height/2},
+				{r.x + r.width,r.y + r.height/2},
+            };
+			bezierPts.add(pts);
+
+			pts = new float[][]
+            {
+				{r.x + r.width,r.y + r.height / 2},
+				{r.x + r.width - options.right * 2,r.y + r.height / 2},
+				{r.x + r.width + options.right,r.y + r.height},
+				{r.x + r.width - options.right,r.y + r.height},
+            };
+			bezierPts.add(pts);
 		}
 	}
 

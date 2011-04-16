@@ -24,6 +24,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.Stroke;
 
 import javax.swing.border.AbstractBorder;
@@ -67,10 +68,13 @@ public class CurlyBraceBorder extends AbstractBorder {
 		Graphics2D g2d = (Graphics2D) g;
 		Color saveColor = g.getColor();
 		Stroke saveStroke = g2d.getStroke();
+		RenderingHints saveHints = g2d.getRenderingHints();
+
 		try {
 			Rectangle r = c.getBounds();
 			g.setColor(options.color);
 			g2d.setStroke(stroke);
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 			if (options.top > 0) {
 				float[][] pts = new float[][]
@@ -148,6 +152,7 @@ public class CurlyBraceBorder extends AbstractBorder {
 		} finally {
 			g.setColor(saveColor);
 			g2d.setStroke(saveStroke);
+			g2d.setRenderingHints(saveHints);
 		}
 	}
 

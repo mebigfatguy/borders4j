@@ -38,6 +38,7 @@ import com.mebigfatguy.borders4j.CastleBorder;
 import com.mebigfatguy.borders4j.CheckerboardBorder;
 import com.mebigfatguy.borders4j.CircleCornersBorder;
 import com.mebigfatguy.borders4j.CurlyBraceBorder;
+import com.mebigfatguy.borders4j.HairBorder;
 import com.mebigfatguy.borders4j.MultilineBorder;
 import com.mebigfatguy.borders4j.ScallopBorder;
 import com.mebigfatguy.borders4j.ScrollBorder;
@@ -61,6 +62,7 @@ public class BorderExplorer extends JFrame {
 		borders.put("Castle", new CastleBorder(new CastleBorder.Options().setFillColor(Color.GRAY).setLineColor(Color.BLUE).setLineWidth(2)));
 		borders.put("Shadowed Page", new ShadowedPageBorder(new ShadowedPageBorder.Options().setShadowXOffset(10).setShadowYOffset(10)));
 		borders.put("Scallop", new ScallopBorder(new ScallopBorder.Options().setLineWidth(2).setLineColor(Color.GREEN)));
+		borders.put("Hair", new HairBorder(new HairBorder.Options().setLineWidth(2).setLineSpacing(6).setLineColor(Color.YELLOW).setHiliteColor(Color.BLUE)));
 	}
 
 	private final JPanel panel;

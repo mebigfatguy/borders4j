@@ -2,4 +2,8 @@ Border4J is a collection of Swing Component Borders to add to the collection ava
 
 Licensed with the Apache 2.0 license.
 
+You can run an border 'explorer' from the project using
+
+    ant explorer
+
 

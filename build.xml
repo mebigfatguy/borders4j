@@ -127,4 +127,8 @@
 
 	<target name="release" depends="build, srczip, javadoc" description="prepares everything for a release"/>
 
+	<target name="explorer" depends="jar" description="runs the border4j explorer swing app">
+		<java classname="com.mebigfatguy.borders4j.explorer.BorderExplorer" classpath="${basedir}/borders4j-${borders4j.version}.jar" fork="true"/>
+	</target>
+	
 </project>

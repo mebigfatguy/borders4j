@@ -35,7 +35,8 @@ import com.mebigfatguy.borders4j.bezier.BezierRenderer;
 
 public class ScrollBorder extends AbstractBorder {
 
-	private final Options options;
+	private static final long serialVersionUID = -8665334503831307882L;
+    private final Options options;
 	private final Stroke stroke;
 	private Rectangle cacheBounds;
 	private final List<float[][]> bezierPts = new ArrayList<float[][]>();

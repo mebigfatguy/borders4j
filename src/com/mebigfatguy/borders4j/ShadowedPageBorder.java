@@ -28,7 +28,8 @@ import javax.swing.border.AbstractBorder;
 
 public class ShadowedPageBorder extends AbstractBorder {
 
-	private final Options options;
+	private static final long serialVersionUID = 7468389521544006247L;
+    private final Options options;
 	private final int top;
 	private final int left;
 	private final int bottom;

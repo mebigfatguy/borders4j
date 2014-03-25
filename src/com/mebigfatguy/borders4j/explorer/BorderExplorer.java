@@ -101,7 +101,8 @@ public class BorderExplorer extends JFrame {
 
 	class BorderAction extends AbstractAction {
 
-		private final String key;
+		private static final long serialVersionUID = -4272327015201474415L;
+        private final String key;
 
 		public BorderAction(String name) {
 			super(name);

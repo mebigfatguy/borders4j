@@ -1,8 +1,8 @@
 <!--
 /*
  * borders4j - An collection of swing borders
- * Copyright 2011 MeBigFatGuy.com
- * Copyright 2011 Dave Brosius
+ * Copyright 2011-2019 MeBigFatGuy.com
+ * Copyright 2011-2019 Dave Brosius
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -118,7 +118,7 @@
 				 destdir="${javadoc.dir}"
 				 windowtitle="borders4j api">
 		    <doctitle><![CDATA[<h1>borders4j javadoc</h1>]]></doctitle>
-		    <bottom><![CDATA[<i>Copyright &#169; 2011 MeBigFatGuy.com. All Rights Reserved.</i>]]></bottom>
+		    <bottom><![CDATA[<i>Copyright &#169; 2011-2019 MeBigFatGuy.com. All Rights Reserved.</i>]]></bottom>
 		</javadoc>
 	</target>
 
